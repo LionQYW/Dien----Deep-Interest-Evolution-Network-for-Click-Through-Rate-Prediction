@@ -71,15 +71,15 @@ if __name__ == "__main__":
     """
     The result is around 0.98-0.999 finally.
     The original raw dataset only contains positive samples.
-    I think the reason why the metrics is so high is that random negative sampling sample too much
+    I think the reason why the metrics are so high is that random negative sampling sample too mamy
     sparse items.
-    e.g. a small part of items occupied a large part of positive samples
+    e.g. a small part of items occupy a large part of positive samples
     and a large part of items those rarely showed in raw dataset are sampled as negative samples.
     So that the model predicts rarely shown items as negative samples easily.
     If someone want to test the models performance further, do some statistics on raw dataset.
     And limit neg sampling only sample from popular items.
     
-    And test set is not sampled the last record, time leaky problem exists.
+    Meanwhile, test set is not set to only sample the last record, time leaky problem exists.
     """
     
     for epoch in range(1,epochs+1):
