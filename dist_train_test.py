@@ -47,10 +47,10 @@ if __name__ == "__main__":
 
         I tried read train dataset Sequentially without shuffle, and only train the model with first 50 batch
         Then test it with test set, the train set and test set are sequential when I made them.
-        Which means a user's records in a specific tfrecord splits will not appear in other tfrecord split.
+        Which means a user's records in a specific tfrecord split will not appear in other tfrecord splits.
 
-        The performance is reasonable, the front part of test set performs just like training set.
-        The tail part of test set's acc and auc decrease from around 0.72 to 0.63.
+        The performance is reasonable, the front part of test set performed just like training set.
+        The tail part of test set's acc and auc decreased from around 0.72 to 0.63.
         """
         def test_step(inputs):
             loss, logits, labels = model(inputs,training=True)
