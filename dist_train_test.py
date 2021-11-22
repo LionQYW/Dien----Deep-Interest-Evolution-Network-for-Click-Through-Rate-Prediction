@@ -45,7 +45,7 @@ if __name__ == "__main__":
         Finally, use training mode to test this model, the only negative effect is computation consumption is increased 
         For compute the loss and do some redandunt neg sampling for test dataset.
 
-        I tried read train dataset Sequentially without shuffle, and only train the model with first 50 batch
+        I tried to read train dataset Sequentially without shuffle, and only train the model with first 50 batch
         Then test it with test set, the train set and test set are sequential when I made them.
         Which means a user's records in a specific tfrecord split will not appear in other tfrecord splits.
 
