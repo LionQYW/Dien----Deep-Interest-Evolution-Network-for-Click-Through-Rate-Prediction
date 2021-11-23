@@ -14,13 +14,4 @@ Running result is shown in report.txt.
 
 Dataset used is Amazon dataset, version:2018 category:Book review:core-5 
 
-I'm not a guy who like to upload my learning procedure to git, but this project, the official code contains a large amount of implementation not identical to DIEN paper, cost me almost a week to understand, distinguish and implement with tf 2.x.
-
-Then I think maybe my implementation could help some other people. You could check the model part without a lot of messy tf 1.x code in official implementation.
-
-There are some problems are commented in codes. 
-
-If you find something wrong, please open an issue and tell me.
-This repository is not intent to teach other something, I'd like someone can point out my problem and learn something.
-
 Thanks.
