@@ -33,25 +33,7 @@ if __name__ == "__main__":
             train_roc_auc.update_state(y_true=labels,y_pred=logits)
             train_loss.update_state(loss)
             return loss
-        """
-        The training arg is confusing.
-        I implement two version of call & nn_attention_modules functions of DIEN model.
 
-        The first version totally seperate the train and test procedure, and works well when set training=False
-        Then I delete it and code current version, aimed to control training/test model via if switch.
-        But after this, when set training to False, the performance became very wired. acc and auc became 0.5, e.g. totally random.
-        And I do not want to debug this fucking model anymore. It made me feel awful for around 5 days.
-
-        Finally, use training mode to test this model, the only negative effect is computation consumption is increased 
-        For compute the loss and do some redandunt neg sampling for test dataset.
-
-        I tried to read train dataset Sequentially without shuffle, and only train the model with first 50 batch
-        Then test it with test set, the train set and test set are sequential when I made them.
-        Which means a user's records in a specific tfrecord split will not appear in other tfrecord splits.
-
-        The performance is reasonable, the front part of test set performed just like training set.
-        The tail part of test set's acc and auc decreased from around 0.72 to 0.63.
-        """
         def test_step(inputs):
             loss, logits, labels = model(inputs,training=True)
             y_pred = tf.round(tf.sigmoid(logits))
@@ -67,20 +49,6 @@ if __name__ == "__main__":
         def dist_test_step(inputs):
             per_replica_losses = strategy.run(test_step,args=(inputs,))
             return strategy.reduce(tf.distribute.ReduceOp.MEAN,per_replica_losses,axis=None)
-
-    """
-    The result is around 0.98-0.999 finally.
-    The original raw dataset only contains positive samples.
-    I think the reason why the metrics are so high is that random negative sampling sample too mamy
-    sparse items.
-    e.g. a small part of items occupy a large part of positive samples
-    and a large part of items those rarely showed in raw dataset are sampled as negative samples.
-    So that the model predicts rarely shown items as negative samples easily.
-    If someone want to test the models performance further, do some statistics on raw dataset.
-    And limit neg sampling only sample from popular items.
-    
-    Meanwhile, test set is not set to only sample the last record, time leaky problem exists.
-    """
     
     for epoch in range(1,epochs+1):
         for step,inputs in enumerate(train_dist_ds,start = 1):
